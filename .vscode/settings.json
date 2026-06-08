@@ -1,0 +1,12 @@
+{
+    "ROS2.distro": "jazzy",
+    "python.autoComplete.extraPaths": [
+        "/home/sai-abhinay/disaster_ws/install/disaster_rover_bringup/lib/python3.12/site-packages",
+        "/home/sai-abhinay/ros2_ws/install/maze_solver/lib/python3.12/site-packages",
+        "/home/sai-abhinay/ros2_ws/install/camera_line_follower_pkg/lib/python3.12/site-packages",
+        "/home/sai-abhinay/nidar_ws/install/a_node/lib/python3.12/site-packages",
+        "/home/sai-abhinay/nidar_ws/install/px4_msgs/lib/python3.12/site-packages",
+        "/home/sai-abhinay/nidar_ws/install/my_robot_interfaces/lib/python3.12/site-packages",
+        "/opt/ros/jazzy/lib/python3.12/site-packages"
+    ]
+}

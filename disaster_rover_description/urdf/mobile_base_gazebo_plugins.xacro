@@ -1,0 +1,374 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ================================================= -->
+  <!-- DIFF DRIVE -->
+  <!-- ================================================= -->
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-diff-drive-system"
+      name="gz::sim::systems::DiffDrive">
+
+      <left_joint>front_left_wheel_joint</left_joint>
+      <left_joint>rear_left_wheel_joint</left_joint>
+
+      <right_joint>front_right_wheel_joint</right_joint>
+      <right_joint>rear_right_wheel_joint</right_joint>
+
+      <wheel_separation>0.60</wheel_separation>
+
+      <wheel_radius>${wheel_radius}</wheel_radius>
+
+      <topic>/cmd_vel</topic>
+
+      <odom_topic>/odom</odom_topic>
+
+      <tf_topic>/tf</tf_topic>
+
+      <frame_id>odom</frame_id>
+
+      <child_frame_id>base_footprint</child_frame_id>
+
+      <odom_publish_frequency>50</odom_publish_frequency>
+
+    </plugin>
+  </gazebo>
+
+  <!-- ================================================= -->
+  <!-- JOINT STATES -->
+  <!-- ================================================= -->
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-joint-state-publisher-system"
+      name="gz::sim::systems::JointStatePublisher">
+
+      <joint_name>front_left_wheel_joint</joint_name>
+      <joint_name>front_right_wheel_joint</joint_name>
+
+      <joint_name>rear_left_wheel_joint</joint_name>
+      <joint_name>rear_right_wheel_joint</joint_name>
+
+      <joint_name>arm_base_joint</joint_name>
+
+      <joint_name>shoulder_joint</joint_name>
+
+      <joint_name>elbow_joint</joint_name>
+
+      <joint_name>wrist_joint</joint_name>
+
+      <joint_name>left_finger_joint</joint_name>
+
+      <joint_name>right_finger_joint</joint_name>
+
+    </plugin>
+  </gazebo>
+
+  <!-- ================================================= -->
+  <!-- POSE PUBLISHER -->
+  <!-- ================================================= -->
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-pose-publisher-system"
+      name="gz::sim::systems::PosePublisher">
+
+      <publish_link_pose>true</publish_link_pose>
+
+      <publish_sensor_pose>true</publish_sensor_pose>
+
+      <publish_collision_pose>false</publish_collision_pose>
+
+      <publish_visual_pose>false</publish_visual_pose>
+
+      <publish_nested_model_pose>true</publish_nested_model_pose>
+
+      <use_pose_vector_msg>true</use_pose_vector_msg>
+
+      <static_publisher>true</static_publisher>
+
+      <static_update_frequency>1</static_update_frequency>
+
+    </plugin>
+  </gazebo>
+
+  <!-- ================================================= -->
+  <!-- IMU SYSTEM -->
+  <!-- ================================================= -->
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-imu-system"
+      name="gz::sim::systems::Imu"/>
+  </gazebo>
+
+  <!-- ================================================= -->
+  <!-- CONTACT SYSTEM -->
+  <!-- ================================================= -->
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-contact-system"
+      name="gz::sim::systems::Contact"/>
+  </gazebo>
+
+    <!-- ARM BASE CONTROLLER -->
+
+  <!-- ================================================= -->
+<!-- ARM BASE CONTROLLER -->
+<!-- ================================================= -->
+<!-- 
+<gazebo>
+  <plugin
+    filename="gz-sim-joint-position-controller-system"
+    name="arm_base_controller">
+
+    <joint_name>arm_base_joint</joint_name>
+
+    <topic>/model/disaster_rover/joint/arm_base_joint/0/cmd_pos</topic>
+
+    <p_gain>100</p_gain>
+    <i_gain>0.01</i_gain>
+    <d_gain>10</d_gain>
+
+    <cmd_max>3.14</cmd_max>
+    <cmd_min>-3.14</cmd_min>
+
+  </plugin>
+</gazebo> -->
+
+<!-- ================================================= -->
+<!-- SHOULDER CONTROLLER -->
+<!-- ================================================= -->
+
+<!-- <gazebo>
+  <plugin
+    filename="gz-sim-joint-position-controller-system"
+    name="shoulder_controller">
+
+    <joint_name>shoulder_joint</joint_name>
+
+    <topic>/model/disaster_rover/joint/shoulder_joint/0/cmd_pos</topic>
+
+    <p_gain>100</p_gain>
+    <i_gain>0.01</i_gain>
+    <d_gain>10</d_gain>
+
+    <cmd_max>3.14</cmd_max>
+    <cmd_min>-3.14</cmd_min>
+
+  </plugin>
+</gazebo> -->
+
+<!-- ================================================= -->
+<!-- ELBOW CONTROLLER -->
+<!-- ================================================= -->
+
+<!-- <gazebo>
+  <plugin
+    filename="gz-sim-joint-position-controller-system"
+    name="elbow_controller">
+
+    <joint_name>elbow_joint</joint_name>
+
+    <topic>/model/disaster_rover/joint/elbow_joint/0/cmd_pos</topic>
+
+    <p_gain>100</p_gain>
+    <i_gain>0.01</i_gain>
+    <d_gain>10</d_gain>
+
+    <cmd_max>3.14</cmd_max>
+    <cmd_min>-3.14</cmd_min>
+
+  </plugin>
+</gazebo> -->
+
+<!-- ================================================= -->
+<!-- WRIST CONTROLLER -->
+<!-- ================================================= -->
+
+<!-- <gazebo>
+  <plugin
+    filename="gz-sim-joint-position-controller-system"
+    name="wrist_controller">
+
+    <joint_name>wrist_joint</joint_name>
+
+    <topic>/model/disaster_rover/joint/wrist_joint/0/cmd_pos</topic>
+
+    <p_gain>100</p_gain>
+    <i_gain>0.01</i_gain>
+    <d_gain>10</d_gain>
+
+    <cmd_max>1.57</cmd_max>
+    <cmd_min>-1.57</cmd_min>
+
+  </plugin>
+</gazebo> -->
+
+<!-- ================================================= -->
+<!-- LEFT FINGER CONTROLLER -->
+<!-- ================================================= -->
+
+<gazebo>
+  <plugin
+    filename="gz-sim-joint-position-controller-system"
+    name="left_finger_controller">
+
+    <joint_name>left_finger_joint</joint_name>
+
+    <topic>/model/disaster_rover/joint/left_finger_joint/0/cmd_pos</topic>
+
+    <p_gain>50</p_gain>
+    <i_gain>0.01</i_gain>
+    <d_gain>5</d_gain>
+
+    <cmd_max>0.4</cmd_max>
+    <cmd_min>-0.4</cmd_min>
+
+  </plugin>
+</gazebo>
+
+<!-- ================================================= -->
+<!-- RIGHT FINGER CONTROLLER -->
+<!-- ================================================= -->
+
+<gazebo>
+  <plugin
+    filename="gz-sim-joint-position-controller-system"
+    name="right_finger_controller">
+
+    <joint_name>right_finger_joint</joint_name>
+
+    <topic>/model/disaster_rover/joint/right_finger_joint/0/cmd_pos</topic>
+
+    <p_gain>50</p_gain>
+    <i_gain>0.01</i_gain>
+    <d_gain>5</d_gain>
+
+    <cmd_max>0.4</cmd_max>
+    <cmd_min>-0.4</cmd_min>
+
+  </plugin>
+</gazebo>
+  <!-- ================================================= -->
+  <!-- ODOMETRY -->
+  <!-- ================================================= -->
+<!-- 
+  <gazebo>
+    <plugin
+      filename="gz-sim-odometry-publisher-system"
+      name="gz::sim::systems::OdometryPublisher">
+    </plugin>
+  </gazebo> -->
+
+  <!-- ================================================= -->
+  <!-- SCENE BROADCASTER -->
+  <!-- ================================================= -->
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster"/>
+  </gazebo>
+
+  <!-- ================================================= -->
+  <!-- USER COMMANDS -->
+  <!-- ================================================= -->
+
+ <gazebo>
+    <plugin
+      filename="gz-sim-joint-position-controller-system"
+      name="gz::sim::systems::JointPositionController">
+
+      <joint_name>arm_base_joint</joint_name>
+
+      <topic>/model/disaster_rover/joint/arm_base_joint/0/cmd_pos</topic>
+
+      <p_gain>100</p_gain>
+      <i_gain>0.01</i_gain>
+      <d_gain>10</d_gain>
+
+      <cmd_max>500</cmd_max>
+      <cmd_min>-500</cmd_min>
+
+    </plugin>
+  </gazebo>
+
+  <!-- SHOULDER -->
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-joint-position-controller-system"
+      name="gz::sim::systems::JointPositionController">
+
+      <joint_name>shoulder_joint</joint_name>
+
+      <topic>/model/disaster_rover/joint/shoulder_joint/0/cmd_pos</topic>
+
+      <p_gain>100</p_gain>
+      <i_gain>0.01</i_gain>
+      <d_gain>10</d_gain>
+
+      <cmd_max>500</cmd_max>
+      <cmd_min>-500</cmd_min>
+
+    </plugin>
+  </gazebo>
+
+  <!-- ELBOW -->
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-joint-position-controller-system"
+      name="gz::sim::systems::JointPositionController">
+
+      <joint_name>elbow_joint</joint_name>
+
+      <topic>/model/disaster_rover/joint/elbow_joint/0/cmd_pos</topic>
+
+      <p_gain>100</p_gain>
+      <i_gain>0.01</i_gain>
+      <d_gain>10</d_gain>
+
+      <cmd_max>500</cmd_max>
+      <cmd_min>-500</cmd_min>
+
+    </plugin>
+  </gazebo>
+
+  <!-- WRIST -->
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-joint-position-controller-system"
+      name="gz::sim::systems::JointPositionController">
+
+      <joint_name>wrist_joint</joint_name>
+
+      <topic>/model/disaster_rover/joint/wrist_joint/0/cmd_pos</topic>
+
+      <p_gain>100</p_gain>
+      <i_gain>0.01</i_gain>
+      <d_gain>10</d_gain>
+
+      <cmd_max>500</cmd_max>
+      <cmd_min>-500</cmd_min>
+
+    </plugin>
+  </gazebo>
+
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-user-commands-system"
+      name="gz::sim::systems::UserCommands"/>
+  </gazebo>
+
+</robot>
+
+
+
+
+ 

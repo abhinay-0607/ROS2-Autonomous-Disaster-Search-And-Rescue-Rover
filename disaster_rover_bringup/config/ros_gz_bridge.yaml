@@ -1,0 +1,107 @@
+# ================= TIME =================
+
+- ros_topic_name: "/clock"
+  gz_topic_name: "/clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
+  direction: GZ_TO_ROS
+
+# ================= ODOM =================
+
+- ros_topic_name: "/odom"
+  gz_topic_name: "/model/disaster_rover/odometry"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  direction: GZ_TO_ROS
+
+# ================= CMD VEL =================
+
+- ros_topic_name: "/cmd_vel"
+  gz_topic_name: "/cmd_vel"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
+  direction: ROS_TO_GZ
+
+# ================= JOINT STATES =================
+
+- ros_topic_name: "/joint_states"
+  gz_topic_name: "/world/beach_disaster_world/model/disaster_rover/joint_state"
+  ros_type_name: "sensor_msgs/msg/JointState"
+  gz_type_name: "gz.msgs.Model"
+  direction: GZ_TO_ROS
+
+# ================= IMU =================
+
+- ros_topic_name: "/imu"
+  gz_topic_name: "/world/beach_disaster_world/model/disaster_rover/link/base_footprint/sensor/imu_sensor/imu"
+  ros_type_name: "sensor_msgs/msg/Imu"
+  gz_type_name: "gz.msgs.IMU"
+  direction: GZ_TO_ROS
+
+# ================= ARM BASE =================
+
+- ros_topic_name: "/arm_base_joint/cmd_pos"
+  gz_topic_name: "/model/disaster_rover/joint/arm_base_joint/0/cmd_pos"
+  ros_type_name: "std_msgs/msg/Float64"
+  gz_type_name: "gz.msgs.Double"
+  direction: ROS_TO_GZ
+
+# ================= SHOULDER =================
+
+- ros_topic_name: "/shoulder_joint/cmd_pos"
+  gz_topic_name: "/model/disaster_rover/joint/shoulder_joint/0/cmd_pos"
+  ros_type_name: "std_msgs/msg/Float64"
+  gz_type_name: "gz.msgs.Double"
+  direction: ROS_TO_GZ
+
+# ================= ELBOW =================
+
+- ros_topic_name: "/elbow_joint/cmd_pos"
+  gz_topic_name: "/model/disaster_rover/joint/elbow_joint/0/cmd_pos"
+  ros_type_name: "std_msgs/msg/Float64"
+  gz_type_name: "gz.msgs.Double"
+  direction: ROS_TO_GZ
+
+# ================= WRIST =================
+
+- ros_topic_name: "/wrist_joint/cmd_pos"
+  gz_topic_name: "/model/disaster_rover/joint/wrist_joint/0/cmd_pos"
+  ros_type_name: "std_msgs/msg/Float64"
+  gz_type_name: "gz.msgs.Double"
+  direction: ROS_TO_GZ
+
+  
+
+# - ros_topic_name: "/scan"
+#   gz_topic_name: "/world/beach_disaster_world/model/disaster_rover/link/lidar_link/sensor/lidar_sensor/scan"
+#   ros_type_name: "sensor_msgs/msg/LaserScan"
+#   gz_type_name: "gz.msgs.LaserScan"
+#   direction: GZ_TO_ROS
+
+- ros_topic_name: "/camera/image_raw"
+  gz_topic_name: "/world/beach_disaster_world/model/disaster_rover/link/camera_link/sensor/camera_sensor/image"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/camera/camera_info"
+  gz_topic_name: "/world/beach_disaster_world/model/disaster_rover/link/camera_link/sensor/camera_sensor/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+  direction: GZ_TO_ROS
+
+  # ================= LEFT FINGER =================
+
+- ros_topic_name: "/left_finger_joint/cmd_pos"
+  gz_topic_name: "/model/disaster_rover/joint/left_finger_joint/0/cmd_pos"
+  ros_type_name: "std_msgs/msg/Float64"
+  gz_type_name: "gz.msgs.Double"
+  direction: ROS_TO_GZ
+
+# ================= RIGHT FINGER =================
+
+- ros_topic_name: "/right_finger_joint/cmd_pos"
+  gz_topic_name: "/model/disaster_rover/joint/right_finger_joint/0/cmd_pos"
+  ros_type_name: "std_msgs/msg/Float64"
+  gz_type_name: "gz.msgs.Double"
+  direction: ROS_TO_GZ

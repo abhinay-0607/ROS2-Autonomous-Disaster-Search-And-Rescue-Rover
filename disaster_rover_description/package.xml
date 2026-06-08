@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+
+<package format="3">
+
+  <name>disaster_rover_description</name>
+
+  <version>0.0.0</version>
+
+  <description>Disaster rover description package</description>
+
+  <maintainer email="24ec01030@iitbbs.ac.in">
+    sai-abhinay
+  </maintainer>
+
+  <license>Apache-2.0</license>
+
+  <!-- ========================================= -->
+  <!-- BUILD TOOL -->
+  <!-- ========================================= -->
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- ========================================= -->
+  <!-- DEPENDENCIES -->
+  <!-- ========================================= -->
+
+  <depend>xacro</depend>
+
+  <depend>robot_state_publisher</depend>
+
+  <depend>joint_state_publisher</depend>
+
+  <depend>joint_state_publisher_gui</depend>
+
+  <depend>rviz2</depend>
+
+  <depend>ros_gz_sim</depend>
+
+  <depend>ros_gz_bridge</depend>
+
+  <depend>gazebo_ros</depend>
+
+  <!-- ========================================= -->
+  <!-- EXPORT -->
+  <!-- ========================================= -->
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+
+</package>
+  <!-- <?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>disaster_rover_description</name>
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
+  <maintainer email="24ec01030@iitbbs.ac.in">sai-abhinay</maintainer>
+  <license>TODO: License declaration</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package> -->

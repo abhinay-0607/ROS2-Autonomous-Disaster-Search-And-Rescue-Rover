@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<sdf version="1.8">
+  <world name="maze_world">
+
+    <!-- Physics -->
+    <physics type="ode">
+      <real_time_update_rate>1000.0</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+    </physics>
+
+    <!-- Required plugins -->
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <!-- Ground -->
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Ground Plane</uri>
+    </include>
+
+    <!-- Sun -->
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Sun</uri>
+    </include>
+
+    <!-- YOUR MAZE -->
+    <model name="maze_model_rs">
+      <static>true</static>
+      <link name="body">
+
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/sai-abhinay/.gazebo/models/maze_model_rs/media/maze.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/sai-abhinay/.gazebo/models/maze_model_rs/media/maze.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+
+      </link>
+    </model>
+
+  </world>
+</sdf>
+
+

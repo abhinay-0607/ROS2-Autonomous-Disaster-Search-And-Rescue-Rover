@@ -1,0 +1,34 @@
+running egg_info
+creating ../build/disaster_rover_bringup/disaster_rover_bringup.egg-info
+writing ../build/disaster_rover_bringup/disaster_rover_bringup.egg-info/PKG-INFO
+writing dependency_links to ../build/disaster_rover_bringup/disaster_rover_bringup.egg-info/dependency_links.txt
+writing requirements to ../build/disaster_rover_bringup/disaster_rover_bringup.egg-info/requires.txt
+writing top-level names to ../build/disaster_rover_bringup/disaster_rover_bringup.egg-info/top_level.txt
+writing manifest file '../build/disaster_rover_bringup/disaster_rover_bringup.egg-info/SOURCES.txt'
+reading manifest file '../build/disaster_rover_bringup/disaster_rover_bringup.egg-info/SOURCES.txt'
+writing manifest file '../build/disaster_rover_bringup/disaster_rover_bringup.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/sai-abhinay/disaster_ws/src/build/disaster_rover_bringup/build
+creating /home/sai-abhinay/disaster_ws/src/build/disaster_rover_bringup/build/lib
+creating /home/sai-abhinay/disaster_ws/src/build/disaster_rover_bringup/build/lib/disaster_rover_bringup
+copying disaster_rover_bringup/__init__.py -> /home/sai-abhinay/disaster_ws/src/build/disaster_rover_bringup/build/lib/disaster_rover_bringup
+running install
+running install_lib
+creating /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/lib/python3.12/site-packages/disaster_rover_bringup
+copying /home/sai-abhinay/disaster_ws/src/build/disaster_rover_bringup/build/lib/disaster_rover_bringup/__init__.py -> /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/lib/python3.12/site-packages/disaster_rover_bringup
+byte-compiling /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/lib/python3.12/site-packages/disaster_rover_bringup/__init__.py to __init__.cpython-312.pyc
+running install_data
+creating /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/share/ament_index
+creating /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/share/ament_index/resource_index
+creating /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/share/ament_index/resource_index/packages
+copying resource/disaster_rover_bringup -> /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/share/ament_index/resource_index/packages
+copying package.xml -> /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/share/disaster_rover_bringup
+creating /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/share/disaster_rover_bringup/launch
+copying launch/disaster_rover.launch.xml -> /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/share/disaster_rover_bringup/launch
+creating /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/share/disaster_rover_bringup/config
+copying config/ros_gz_bridge.yaml -> /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/share/disaster_rover_bringup/config
+running install_egg_info
+Copying ../build/disaster_rover_bringup/disaster_rover_bringup.egg-info to /home/sai-abhinay/disaster_ws/src/install/disaster_rover_bringup/lib/python3.12/site-packages/disaster_rover_bringup-0.0.0-py3.12.egg-info
+running install_scripts
+writing list of installed files to '/home/sai-abhinay/disaster_ws/src/build/disaster_rover_bringup/install.log'

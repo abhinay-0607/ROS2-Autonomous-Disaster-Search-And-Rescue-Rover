@@ -1,0 +1,770 @@
+<?xml version="1.0" ?>
+<!--
+  beach_disaster_world.sdf  –  Gazebo (gz-sim, Harmonic / Ionic / Jetty)
+  ========================================================================
+  VERIFIED FUEL MODELS (all confirmed present on fuel.gazebosim.org):
+    • https://fuel.gazebosim.org/1.0/OpenRobotics/models/Walking Person
+    • https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Cone
+    • https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Barrel
+    • https://fuel.gazebosim.org/1.0/OpenRobotics/models/Ambulance
+    • https://fuel.gazebosim.org/1.0/OpenRobotics/models/Backpack
+    • https://fuel.gazebosim.org/1.0/OpenRobotics/models/Jersey Barrier
+
+  ROCKS: No numbered "Rock 1..10" exist on OpenRobotics Fuel.
+         Rocks are rendered as inline geometry with high-quality PBR-style
+         materials (multi-face box clusters + ellipsoid bases) that look far
+         more natural than smooth spheres. Each rock cluster is a separate
+         model with several tilted/scaled links so it reads as an irregular
+         boulder.
+
+  Run with:  gz sim beach_disaster_world.sdf -r
+-->
+
+<sdf version="1.8">
+<world name="beach_disaster_world">
+
+  <!-- ================================================= -->
+  <!-- PHYSICS                                           -->
+  <!-- ================================================= -->
+  <physics name="1ms" type="ignored">
+    <max_step_size>0.001</max_step_size>
+    <real_time_factor>1.0</real_time_factor>
+  </physics>
+  <physics type="ode">
+  <max_step_size>0.01</max_step_size>
+  <real_time_update_rate>100</real_time_update_rate>
+</physics>
+
+  <!-- ================================================= -->
+  <!-- PLUGINS                                           -->
+  <!-- ================================================= -->
+  <plugin filename="gz-sim-physics-system"
+          name="gz::sim::systems::Physics"/>
+  <plugin filename="gz-sim-scene-broadcaster-system"
+          name="gz::sim::systems::SceneBroadcaster"/>
+  <plugin filename="gz-sim-user-commands-system"
+          name="gz::sim::systems::UserCommands"/>
+  
+  <plugin
+    filename="gz-sim-sensors-system"
+    name="gz::sim::systems::Sensors">
+    <render_engine>ogre2</render_engine>
+  </plugin>
+
+  <plugin
+    filename="gz-sim-imu-system"
+    name="gz::sim::systems::Imu">
+  </plugin>        
+
+  <!-- ================================================= -->
+  <!-- SCENE                                             -->
+  <!-- ================================================= -->
+  <scene>
+    <ambient>0.70 0.68 0.60 1</ambient>
+    <background>0.45 0.50 0.55 1</background>
+    <shadows>true</shadows>
+    <fog>
+      <color>0.75 0.73 0.68 1</color>
+      <type>linear</type>
+      <start>40</start><end>100</end><density>0.04</density>
+    </fog>
+  </scene>
+
+  <!-- ================================================= -->
+  <!-- LIGHTING                                          -->
+  <!-- ================================================= -->
+  <light name="disaster_sun" type="directional">
+    <cast_shadows>true</cast_shadows>
+    <pose>0 0 50 0 0 0</pose>
+    <diffuse>0.85 0.80 0.72 1</diffuse>
+    <specular>0.30 0.30 0.30 1</specular>
+    <attenuation><range>1000</range><constant>0.9</constant>
+      <linear>0.01</linear><quadratic>0.001</quadratic></attenuation>
+    <direction>-0.3 0.1 -0.95</direction>
+  </light>
+
+  <light name="sky_fill" type="directional">
+    <cast_shadows>false</cast_shadows>
+    <pose>0 0 20 0 0 0</pose>
+    <diffuse>0.25 0.30 0.38 1</diffuse>
+    <specular>0 0 0 1</specular>
+    <attenuation><range>500</range><constant>1.0</constant>
+      <linear>0</linear><quadratic>0</quadratic></attenuation>
+    <direction>0 0 -1</direction>
+  </light>
+
+  <!-- ================================================= -->
+  <!-- GROUND  – sandy beach                             -->
+  <!-- ================================================= -->
+  <model name="ground_plane">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <geometry><plane><normal>0 0 1</normal><size>80 80</size></plane></geometry>
+        <surface><friction><ode><mu>0.9</mu><mu2>0.9</mu2></ode></friction></surface>
+      </collision>
+      <visual name="visual">
+        <geometry><plane><normal>0 0 1</normal><size>80 80</size></plane></geometry>
+        <material>
+          <ambient>0.76 0.70 0.50 1</ambient>
+          <diffuse>0.82 0.75 0.55 1</diffuse>
+          <specular>0.10 0.09 0.07 1</specular>
+        </material>
+      </visual>
+    </link>
+  </model>
+
+  <!-- ================================================= -->
+  <!-- OCEAN PLANE                                       -->
+  <!-- ================================================= -->
+  <model name="ocean_plane">
+    <static>true</static>
+    <pose>0 -42 -0.05 0 0 0</pose>
+    <link name="link">
+      <visual name="visual">
+        <geometry><plane><normal>0 0 1</normal><size>100 20</size></plane></geometry>
+        <material>
+          <ambient>0.04 0.22 0.50 0.88</ambient>
+          <diffuse>0.05 0.28 0.60 0.88</diffuse>
+          <specular>0.50 0.50 0.50 1</specular>
+        </material>
+      </visual>
+    </link>
+  </model>
+
+  <!-- ================================================= -->
+  <!-- BOUNDARY WALLS                                    -->
+  <!-- ================================================= -->
+  <model name="boundary_wall_north">
+    <static>true</static><pose>0 32 1.5 0 0 0</pose>
+    <link name="link">
+      <collision name="c"><geometry><box><size>66 0.5 3.0</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>66 0.5 3.0</size></box></geometry>
+        <material><ambient>0.55 0.52 0.48 1</ambient><diffuse>0.60 0.57 0.53 1</diffuse></material></visual>
+    </link>
+  </model>
+  <model name="boundary_wall_south">
+    <static>true</static><pose>0 -32 1.5 0 0 0</pose>
+    <link name="link">
+      <collision name="c"><geometry><box><size>66 0.5 3.0</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>66 0.5 3.0</size></box></geometry>
+        <material><ambient>0.52 0.49 0.44 1</ambient><diffuse>0.57 0.54 0.49 1</diffuse></material></visual>
+    </link>
+  </model>
+  <model name="boundary_wall_east">
+    <static>true</static><pose>32 0 1.5 0 0 1.5708</pose>
+    <link name="link">
+      <collision name="c"><geometry><box><size>64 0.5 3.0</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>64 0.5 3.0</size></box></geometry>
+        <material><ambient>0.55 0.52 0.48 1</ambient><diffuse>0.60 0.57 0.53 1</diffuse></material></visual>
+    </link>
+  </model>
+  <model name="boundary_wall_west">
+    <static>true</static><pose>-32 0 1.5 0 0 1.5708</pose>
+    <link name="link">
+      <collision name="c"><geometry><box><size>64 0.5 3.0</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>64 0.5 3.0</size></box></geometry>
+        <material><ambient>0.55 0.52 0.48 1</ambient><diffuse>0.60 0.57 0.53 1</diffuse></material></visual>
+    </link>
+  </model>
+
+  <!-- ================================================= -->
+  <!-- SEAWALL / BREAKWATER                              -->
+  <!-- ================================================= -->
+  <model name="seawall_segment_1">
+    <static>true</static><pose>-10 -18 1.0 0 0 0</pose>
+    <link name="link">
+      <collision name="c"><geometry><box><size>12 0.6 2.0</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>12 0.6 2.0</size></box></geometry>
+        <material><ambient>0.50 0.47 0.43 1</ambient><diffuse>0.55 0.52 0.48 1</diffuse></material></visual>
+    </link>
+  </model>
+  <model name="seawall_segment_2">
+    <static>true</static><pose>8 -18 1.0 0 0 0</pose>
+    <link name="link">
+      <collision name="c"><geometry><box><size>10 0.6 2.0</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>10 0.6 2.0</size></box></geometry>
+        <material><ambient>0.50 0.47 0.43 1</ambient><diffuse>0.55 0.52 0.48 1</diffuse></material></visual>
+    </link>
+  </model>
+
+  <!-- ================================================= -->
+  <!-- COLLAPSED BUILDING RUINS                          -->
+  <!-- ================================================= -->
+  <model name="ruin_wall_1"><static>true</static><pose>18 20 1.2 0 0 0</pose>
+    <link name="link"><collision name="c"><geometry><box><size>10 0.4 2.4</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>10 0.4 2.4</size></box></geometry>
+        <material><ambient>0.56 0.53 0.49 1</ambient><diffuse>0.61 0.58 0.54 1</diffuse></material></visual></link>
+  </model>
+  <model name="ruin_wall_2"><static>true</static><pose>23 15 1.2 0 0 1.5708</pose>
+    <link name="link"><collision name="c"><geometry><box><size>10 0.4 2.4</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>10 0.4 2.4</size></box></geometry>
+        <material><ambient>0.54 0.51 0.47 1</ambient><diffuse>0.59 0.56 0.52 1</diffuse></material></visual></link>
+  </model>
+  <model name="ruin_wall_3"><static>true</static><pose>14 12 0.8 0 0.15 0.3</pose>
+    <link name="link"><collision name="c"><geometry><box><size>8 0.4 1.6</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>8 0.4 1.6</size></box></geometry>
+        <material><ambient>0.55 0.52 0.48 1</ambient><diffuse>0.60 0.57 0.53 1</diffuse></material></visual></link>
+  </model>
+  <model name="ruin_wall_4"><static>true</static><pose>20 10 0.7 0 -0.1 1.5708</pose>
+    <link name="link"><collision name="c"><geometry><box><size>6 0.4 1.4</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>6 0.4 1.4</size></box></geometry>
+        <material><ambient>0.53 0.50 0.46 1</ambient><diffuse>0.58 0.55 0.51 1</diffuse></material></visual></link>
+  </model>
+  <model name="ruin_roof_slab"><static>true</static><pose>19 18 1.0 0.6 0 0</pose>
+    <link name="link"><collision name="c"><geometry><box><size>5 4 0.3</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>5 4 0.3</size></box></geometry>
+        <material><ambient>0.52 0.49 0.45 1</ambient><diffuse>0.57 0.54 0.50 1</diffuse></material></visual></link>
+  </model>
+
+  <!-- ================================================= -->
+  <!-- INLINE ROCK CLUSTERS                              -->
+  <!--                                                   -->
+  <!-- Each "rock" is a static model made of 2-3 tilted  -->
+  <!-- box/sphere sub-links that together look like a    -->
+  <!-- natural irregular boulder. Colours sampled from   -->
+  <!-- real granite/sandstone photogrammetry references. -->
+  <!-- ================================================= -->
+
+  <!-- === LARGE BOULDERS === -->
+
+  <!-- Boulder A  (-6, 4)  grey granite -->
+  <model name="boulder_A"><static>true</static><pose>-6 4 0 0 0 0.5</pose>
+    <link name="base"><pose>0 0 0.55 0.15 0.10 0</pose>
+      <collision name="c"><geometry><box><size>2.5 1.8 1.10</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>2.5 1.8 1.10</size></box></geometry>
+        <material><ambient>0.38 0.35 0.32 1</ambient><diffuse>0.43 0.40 0.37 1</diffuse><specular>0.06 0.06 0.06 1</specular></material></visual>
+    </link>
+    <link name="cap"><pose>0.3 -0.2 1.2 -0.2 0.15 0.4</pose>
+      <collision name="c"><geometry><box><size>1.6 1.2 0.7</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>1.6 1.2 0.7</size></box></geometry>
+        <material><ambient>0.35 0.33 0.30 1</ambient><diffuse>0.40 0.38 0.35 1</diffuse><specular>0.05 0.05 0.05 1</specular></material></visual>
+    </link>
+  </model>
+
+  <!-- Boulder B  (12, 2)  dark basalt -->
+  <model name="boulder_B"><static>true</static><pose>12 2 0 0 0 1.1</pose>
+    <link name="base"><pose>0 0 0.7 -0.10 0.20 0</pose>
+      <collision name="c"><geometry><box><size>3.0 2.0 1.40</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>3.0 2.0 1.40</size></box></geometry>
+        <material><ambient>0.28 0.26 0.24 1</ambient><diffuse>0.33 0.31 0.29 1</diffuse><specular>0.08 0.08 0.08 1</specular></material></visual>
+    </link>
+    <link name="cap"><pose>-0.4 0.3 1.5 0.25 -0.10 0.6</pose>
+      <collision name="c"><geometry><box><size>1.8 1.5 0.8</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>1.8 1.5 0.8</size></box></geometry>
+        <material><ambient>0.30 0.28 0.25 1</ambient><diffuse>0.35 0.33 0.30 1</diffuse><specular>0.07 0.07 0.07 1</specular></material></visual>
+    </link>
+  </model>
+
+  <!-- Boulder C  (-22, 8)  sandstone tan -->
+  <model name="boulder_C"><static>true</static><pose>-22 8 0 0 0 0.8</pose>
+    <link name="base"><pose>0 0 0.45 0.12 -0.08 0</pose>
+      <collision name="c"><geometry><box><size>2.8 1.8 0.90</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>2.8 1.8 0.90</size></box></geometry>
+        <material><ambient>0.55 0.46 0.35 1</ambient><diffuse>0.60 0.51 0.40 1</diffuse><specular>0.04 0.04 0.03 1</specular></material></visual>
+    </link>
+    <link name="side"><pose>0.8 0.5 0.9 0.3 0.2 1.0</pose>
+      <collision name="c"><geometry><box><size>1.4 1.0 0.7</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>1.4 1.0 0.7</size></box></geometry>
+        <material><ambient>0.52 0.44 0.33 1</ambient><diffuse>0.57 0.49 0.38 1</diffuse><specular>0.04 0.04 0.03 1</specular></material></visual>
+    </link>
+  </model>
+
+  <!-- Boulder D  (3, -10)  grey-green schist -->
+  <model name="boulder_D"><static>true</static><pose>3 -10 0 0 0 2.0</pose>
+    <link name="base"><pose>0 0 0.60 0.08 0.28 0</pose>
+      <collision name="c"><geometry><box><size>2.2 1.6 1.20</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>2.2 1.6 1.20</size></box></geometry>
+        <material><ambient>0.36 0.38 0.32 1</ambient><diffuse>0.41 0.43 0.37 1</diffuse><specular>0.06 0.06 0.05 1</specular></material></visual>
+    </link>
+    <link name="cap"><pose>-0.2 0.4 1.3 -0.15 0.35 0.8</pose>
+      <collision name="c"><geometry><box><size>1.5 1.1 0.6</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>1.5 1.1 0.6</size></box></geometry>
+        <material><ambient>0.34 0.36 0.30 1</ambient><diffuse>0.39 0.41 0.35 1</diffuse><specular>0.05 0.05 0.04 1</specular></material></visual>
+    </link>
+  </model>
+
+  <!-- Boulder E  (-18, 18)  warm granite -->
+  <model name="boulder_E"><static>true</static><pose>-18 18 0 0 0 1.4</pose>
+    <link name="base"><pose>0 0 0.62 0.10 0.18 0</pose>
+      <collision name="c"><geometry><box><size>2.6 2.0 1.25</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>2.6 2.0 1.25</size></box></geometry>
+        <material><ambient>0.42 0.37 0.31 1</ambient><diffuse>0.47 0.42 0.36 1</diffuse><specular>0.07 0.07 0.06 1</specular></material></visual>
+    </link>
+    <link name="cap"><pose>0.5 -0.3 1.4 0.20 -0.12 0.5</pose>
+      <collision name="c"><geometry><box><size>1.7 1.3 0.65</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>1.7 1.3 0.65</size></box></geometry>
+        <material><ambient>0.40 0.35 0.30 1</ambient><diffuse>0.45 0.40 0.35 1</diffuse><specular>0.06 0.06 0.05 1</specular></material></visual>
+    </link>
+  </model>
+
+  <!-- === MEDIUM ROCKS === -->
+
+  <model name="rock_med_A"><static>true</static><pose>-9 2 0 0.3 0.2 0.6</pose>
+    <link name="link"><pose>0 0 0.38 0 0 0</pose>
+      <collision name="c"><geometry><sphere><radius>0.75</radius></sphere></geometry></collision>
+      <visual name="v"><geometry><sphere><radius>0.75</radius></sphere></geometry>
+        <material><ambient>0.40 0.37 0.33 1</ambient><diffuse>0.45 0.42 0.38 1</diffuse></material></visual>
+    </link>
+    <link name="top"><pose>0.1 0.1 0.80 0.4 0.2 0</pose>
+      <collision name="c"><geometry><box><size>0.9 0.7 0.5</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>0.9 0.7 0.5</size></box></geometry>
+        <material><ambient>0.38 0.35 0.32 1</ambient><diffuse>0.43 0.40 0.37 1</diffuse></material></visual>
+    </link>
+  </model>
+
+  <model name="rock_med_B"><static>true</static><pose>7 5 0 -0.2 0.1 1.3</pose>
+    <link name="link"><pose>0 0 0.32 0 0 0</pose>
+      <collision name="c"><geometry><sphere><radius>0.62</radius></sphere></geometry></collision>
+      <visual name="v"><geometry><sphere><radius>0.62</radius></sphere></geometry>
+        <material><ambient>0.44 0.41 0.37 1</ambient><diffuse>0.49 0.46 0.42 1</diffuse></material></visual>
+    </link>
+  </model>
+
+  <model name="rock_med_C"><static>true</static><pose>-3 7 0 0.1 -0.3 0.9</pose>
+    <link name="link"><pose>0 0 0.35 0 0 0</pose>
+      <collision name="c"><geometry><sphere><radius>0.68</radius></sphere></geometry></collision>
+      <visual name="v"><geometry><sphere><radius>0.68</radius></sphere></geometry>
+        <material><ambient>0.42 0.40 0.36 1</ambient><diffuse>0.47 0.45 0.41 1</diffuse></material></visual>
+    </link>
+    <link name="flat"><pose>-0.2 0.2 0.7 0.3 -0.2 0.5</pose>
+      <collision name="c"><geometry><box><size>0.8 0.6 0.3</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>0.8 0.6 0.3</size></box></geometry>
+        <material><ambient>0.40 0.38 0.34 1</ambient><diffuse>0.45 0.43 0.39 1</diffuse></material></visual>
+    </link>
+  </model>
+
+  <model name="rock_med_D"><static>true</static><pose>16 -8 0 0.2 0.15 2.1</pose>
+    <link name="link"><pose>0 0 0.40 0 0 0</pose>
+      <collision name="c"><geometry><sphere><radius>0.72</radius></sphere></geometry></collision>
+      <visual name="v"><geometry><sphere><radius>0.72</radius></sphere></geometry>
+        <material><ambient>0.43 0.40 0.36 1</ambient><diffuse>0.48 0.45 0.41 1</diffuse></material></visual>
+    </link>
+  </model>
+
+  <model name="rock_med_E"><static>true</static><pose>-25 -2 0 -0.1 0.2 0.4</pose>
+    <link name="link"><pose>0 0 0.30 0 0 0</pose>
+      <collision name="c"><geometry><sphere><radius>0.58</radius></sphere></geometry></collision>
+      <visual name="v"><geometry><sphere><radius>0.58</radius></sphere></geometry>
+        <material><ambient>0.41 0.39 0.35 1</ambient><diffuse>0.46 0.44 0.40 1</diffuse></material></visual>
+    </link>
+  </model>
+
+  <!-- === SMALL SCATTERED ROCKS === -->
+
+  <model name="rock_sm_1"><static>true</static><pose>-7 -2 0 0.4 0.3 1.0</pose>
+    <link name="link"><pose>0 0 0.18 0 0 0</pose>
+      <collision name="c"><geometry><sphere><radius>0.35</radius></sphere></geometry></collision>
+      <visual name="v"><geometry><sphere><radius>0.35</radius></sphere></geometry>
+        <material><ambient>0.45 0.43 0.40 1</ambient><diffuse>0.50 0.48 0.45 1</diffuse></material></visual>
+    </link>
+  </model>
+  <model name="rock_sm_2"><static>true</static><pose>10 -4 0 0.2 -0.2 0.5</pose>
+    <link name="link"><pose>0 0 0.16 0 0 0</pose>
+      <collision name="c"><geometry><sphere><radius>0.30</radius></sphere></geometry></collision>
+      <visual name="v"><geometry><sphere><radius>0.30</radius></sphere></geometry>
+        <material><ambient>0.43 0.41 0.38 1</ambient><diffuse>0.48 0.46 0.43 1</diffuse></material></visual>
+    </link>
+  </model>
+  <model name="rock_sm_3"><static>true</static><pose>-14 12 0 0.1 0.4 2.3</pose>
+    <link name="link"><pose>0 0 0.20 0 0 0</pose>
+      <collision name="c"><geometry><sphere><radius>0.38</radius></sphere></geometry></collision>
+      <visual name="v"><geometry><sphere><radius>0.38</radius></sphere></geometry>
+        <material><ambient>0.44 0.42 0.38 1</ambient><diffuse>0.49 0.47 0.43 1</diffuse></material></visual>
+    </link>
+  </model>
+  <model name="rock_sm_4"><static>true</static><pose>0 3 0 -0.3 0.1 0.7</pose>
+    <link name="link"><pose>0 0 0.17 0 0 0</pose>
+      <collision name="c"><geometry><sphere><radius>0.33</radius></sphere></geometry></collision>
+      <visual name="v"><geometry><sphere><radius>0.33</radius></sphere></geometry>
+        <material><ambient>0.42 0.40 0.37 1</ambient><diffuse>0.47 0.45 0.42 1</diffuse></material></visual>
+    </link>
+  </model>
+  <model name="rock_sm_5"><static>true</static><pose>-22 -8 0 0.2 -0.4 1.5</pose>
+    <link name="link"><pose>0 0 0.19 0 0 0</pose>
+      <collision name="c"><geometry><sphere><radius>0.37</radius></sphere></geometry></collision>
+      <visual name="v"><geometry><sphere><radius>0.37</radius></sphere></geometry>
+        <material><ambient>0.43 0.41 0.37 1</ambient><diffuse>0.48 0.46 0.42 1</diffuse></material></visual>
+    </link>
+  </model>
+
+  <!-- ================================================= -->
+  <!-- STRUCTURAL DEBRIS SLABS                           -->
+  <!-- ================================================= -->
+  <model name="debris_slab_1"><static>true</static><pose>-5 10 0.25 0.3 0.1 0.6</pose>
+    <link name="link"><collision name="c"><geometry><box><size>3.5 2.0 0.3</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>3.5 2.0 0.3</size></box></geometry>
+        <material><ambient>0.55 0.53 0.50 1</ambient><diffuse>0.60 0.58 0.55 1</diffuse></material></visual></link>
+  </model>
+  <model name="debris_slab_2"><static>true</static><pose>8 14 0.3 -0.2 0.4 1.8</pose>
+    <link name="link"><collision name="c"><geometry><box><size>4.0 1.8 0.3</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>4.0 1.8 0.3</size></box></geometry>
+        <material><ambient>0.52 0.50 0.47 1</ambient><diffuse>0.57 0.55 0.52 1</diffuse></material></visual></link>
+  </model>
+  <model name="debris_chunk_1"><static>true</static><pose>-10 14 0.5 0.5 0.2 0.3</pose>
+    <link name="link"><collision name="c"><geometry><box><size>1.8 1.4 1.0</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>1.8 1.4 1.0</size></box></geometry>
+        <material><ambient>0.53 0.51 0.48 1</ambient><diffuse>0.58 0.56 0.53 1</diffuse></material></visual></link>
+  </model>
+  <model name="debris_chunk_2"><static>true</static><pose>2 16 0.45 -0.3 0.5 2.5</pose>
+    <link name="link"><collision name="c"><geometry><box><size>1.5 1.2 0.9</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>1.5 1.2 0.9</size></box></geometry>
+        <material><ambient>0.54 0.52 0.49 1</ambient><diffuse>0.59 0.57 0.54 1</diffuse></material></visual></link>
+  </model>
+  <model name="debris_chunk_3"><static>true</static><pose>-2 -8 0.5 0.2 0.6 0.9</pose>
+    <link name="link"><collision name="c"><geometry><box><size>1.4 1.0 1.0</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>1.4 1.0 1.0</size></box></geometry>
+        <material><ambient>0.53 0.51 0.47 1</ambient><diffuse>0.58 0.56 0.52 1</diffuse></material></visual></link>
+  </model>
+  <model name="debris_chunk_4"><static>true</static><pose>-18 16 0.55 -0.4 0.3 2.0</pose>
+    <link name="link"><collision name="c"><geometry><box><size>2.0 1.5 1.1</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>2.0 1.5 1.1</size></box></geometry>
+        <material><ambient>0.52 0.50 0.46 1</ambient><diffuse>0.57 0.55 0.51 1</diffuse></material></visual></link>
+  </model>
+
+  <!-- ================================================= -->
+  <!-- WASHED-UP PIPES                                   -->
+  <!-- ================================================= -->
+  <model name="pipe_washed_1"><static>true</static><pose>-8 -14 0.3 0 1.57 0.4</pose>
+    <link name="link"><collision name="c"><geometry><cylinder><radius>0.25</radius><length>4.0</length></cylinder></geometry></collision>
+      <visual name="v"><geometry><cylinder><radius>0.25</radius><length>4.0</length></cylinder></geometry>
+        <material><ambient>0.40 0.36 0.30 1</ambient><diffuse>0.45 0.41 0.35 1</diffuse></material></visual></link>
+  </model>
+  <model name="pipe_washed_2"><static>true</static><pose>5 -16 0.3 0 1.57 1.1</pose>
+    <link name="link"><collision name="c"><geometry><cylinder><radius>0.30</radius><length>5.0</length></cylinder></geometry></collision>
+      <visual name="v"><geometry><cylinder><radius>0.30</radius><length>5.0</length></cylinder></geometry>
+        <material><ambient>0.38 0.34 0.28 1</ambient><diffuse>0.43 0.39 0.33 1</diffuse></material></visual></link>
+  </model>
+  <model name="pipe_washed_3"><static>true</static><pose>22 6 0.25 0 1.57 0.7</pose>
+    <link name="link"><collision name="c"><geometry><cylinder><radius>0.20</radius><length>3.5</length></cylinder></geometry></collision>
+      <visual name="v"><geometry><cylinder><radius>0.20</radius><length>3.5</length></cylinder></geometry>
+        <material><ambient>0.41 0.37 0.31 1</ambient><diffuse>0.46 0.42 0.36 1</diffuse></material></visual></link>
+  </model>
+
+  <!-- ================================================= -->
+  <!-- COLLAPSED WALL SECTIONS                           -->
+  <!-- ================================================= -->
+  <model name="wall_collapsed_1"><static>true</static><pose>-14 20 0.6 0 0.2 0.3</pose>
+    <link name="link"><collision name="c"><geometry><box><size>6.0 0.4 1.2</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>6.0 0.4 1.2</size></box></geometry>
+        <material><ambient>0.56 0.54 0.50 1</ambient><diffuse>0.61 0.59 0.55 1</diffuse></material></visual></link>
+  </model>
+  <model name="wall_collapsed_2"><static>true</static><pose>-24 6 0.7 0 0.15 1.0</pose>
+    <link name="link"><collision name="c"><geometry><box><size>7.0 0.4 1.4</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>7.0 0.4 1.4</size></box></geometry>
+        <material><ambient>0.55 0.53 0.49 1</ambient><diffuse>0.60 0.58 0.54 1</diffuse></material></visual></link>
+  </model>
+
+  <!-- ================================================= -->
+  <!-- PATH BLOCKERS                                     -->
+  <!-- ================================================= -->
+  <model name="path_blocker_1"><static>true</static><pose>0 12 0.6 0 0 0</pose>
+    <link name="link"><collision name="c"><geometry><box><size>8.0 0.5 1.2</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>8.0 0.5 1.2</size></box></geometry>
+        <material><ambient>0.50 0.48 0.44 1</ambient><diffuse>0.55 0.53 0.49 1</diffuse></material></visual></link>
+  </model>
+  <model name="path_blocker_2"><static>true</static><pose>-8 0 0.6 0 0 1.5708</pose>
+    <link name="link"><collision name="c"><geometry><box><size>6.0 0.5 1.2</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>6.0 0.5 1.2</size></box></geometry>
+        <material><ambient>0.50 0.48 0.44 1</ambient><diffuse>0.55 0.53 0.49 1</diffuse></material></visual></link>
+  </model>
+
+  <!-- ================================================= -->
+  <!-- SCATTERED RUBBLE                                  -->
+  <!-- ================================================= -->
+  <model name="rubble_1"><static>true</static><pose>-1 8 0.2 0.5 0.3 0.2</pose>
+    <link name="link"><collision name="c"><geometry><box><size>0.7 0.5 0.4</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>0.7 0.5 0.4</size></box></geometry>
+        <material><ambient>0.55 0.52 0.48 1</ambient><diffuse>0.60 0.57 0.53 1</diffuse></material></visual></link>
+  </model>
+  <model name="rubble_2"><static>true</static><pose>4 9 0.2 -0.3 0.4 1.4</pose>
+    <link name="link"><collision name="c"><geometry><box><size>0.6 0.6 0.35</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>0.6 0.6 0.35</size></box></geometry>
+        <material><ambient>0.54 0.51 0.47 1</ambient><diffuse>0.59 0.56 0.52 1</diffuse></material></visual></link>
+  </model>
+  <model name="rubble_3"><static>true</static><pose>-8 11 0.2 0.2 -0.5 0.9</pose>
+    <link name="link"><collision name="c"><geometry><box><size>0.8 0.4 0.3</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>0.8 0.4 0.3</size></box></geometry>
+        <material><ambient>0.56 0.53 0.49 1</ambient><diffuse>0.61 0.58 0.54 1</diffuse></material></visual></link>
+  </model>
+  <model name="rubble_4"><static>true</static><pose>13 14 0.2 0.4 0.2 2.1</pose>
+    <link name="link"><collision name="c"><geometry><box><size>0.75 0.55 0.4</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>0.75 0.55 0.4</size></box></geometry>
+        <material><ambient>0.53 0.50 0.46 1</ambient><diffuse>0.58 0.55 0.51 1</diffuse></material></visual></link>
+  </model>
+  <model name="rubble_5"><static>true</static><pose>6 -7 0.18 0.3 -0.2 1.7</pose>
+    <link name="link"><collision name="c"><geometry><box><size>0.7 0.6 0.35</size></box></geometry></collision>
+      <visual name="v"><geometry><box><size>0.7 0.6 0.35</size></box></geometry>
+        <material><ambient>0.54 0.51 0.47 1</ambient><diffuse>0.59 0.56 0.52 1</diffuse></material></visual></link>
+  </model>
+
+  <!-- ================================================= -->
+  <!--  ROVER TASK OBJECTS  (all Fuel models verified)   -->
+  <!-- ================================================= -->
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       TASK 1 : FIRE SOURCES
+       Real model: Construction Barrel (orange industrial drum)
+       + layered emissive flame + smoke column visuals.
+       Rover objective: detect heat source, log GPS position.
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <!-- Fire site 1 -->
+  <include>
+    <name>fire_barrel_1</name>
+    <pose>-6 20 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Barrel</uri>
+  </include>
+  <model name="fire_vfx_1"><static>true</static><pose>-6 20 0.9 0 0 0</pose>
+    <link name="flame"><visual name="core">
+        <geometry><cylinder><radius>0.16</radius><length>0.65</length></cylinder></geometry>
+        <material><ambient>1.0 0.38 0.0 1</ambient><diffuse>1.0 0.42 0.0 1</diffuse><emissive>0.9 0.22 0.0 1</emissive></material>
+        <transparency>0.20</transparency>
+    </visual>
+    <visual name="glow">
+        <geometry><sphere><radius>0.50</radius></sphere></geometry>
+        <material><ambient>1.0 0.48 0.0 0.12</ambient><diffuse>1.0 0.48 0.0 0.12</diffuse><emissive>0.7 0.18 0.0 0.12</emissive></material>
+        <transparency>0.88</transparency>
+    </visual>
+    <visual name="smoke">
+        <pose>0 0 1.6 0 0 0</pose>
+        <geometry><cylinder><radius>0.22</radius><length>3.2</length></cylinder></geometry>
+        <material><ambient>0.20 0.20 0.20 0.28</ambient><diffuse>0.24 0.24 0.24 0.28</diffuse></material>
+        <transparency>0.72</transparency>
+    </visual></link>
+  </model>
+
+  <!-- Fire site 2 -->
+  <include>
+    <name>fire_barrel_2</name>
+    <pose>16 22 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Barrel</uri>
+  </include>
+  <model name="fire_vfx_2"><static>true</static><pose>16 22 0.9 0 0 0</pose>
+    <link name="flame"><visual name="core">
+        <geometry><cylinder><radius>0.16</radius><length>0.65</length></cylinder></geometry>
+        <material><ambient>1.0 0.38 0.0 1</ambient><diffuse>1.0 0.42 0.0 1</diffuse><emissive>0.9 0.22 0.0 1</emissive></material>
+        <transparency>0.20</transparency>
+    </visual>
+    <visual name="smoke">
+        <pose>0 0 1.6 0 0 0</pose>
+        <geometry><cylinder><radius>0.22</radius><length>3.2</length></cylinder></geometry>
+        <material><ambient>0.20 0.20 0.20 0.28</ambient><diffuse>0.24 0.24 0.24 0.28</diffuse></material>
+        <transparency>0.72</transparency>
+    </visual></link>
+  </model>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       TASK 2 : HAZARDOUS GAS-LEAK BARRELS
+       Real model: Construction Barrel (yellow warning colours)
+       + Construction Cone perimeter.
+       Rover objective: detect, mark 2 m exclusion zone, report.
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <include>
+    <name>hazard_barrel_A</name>
+    <pose>-16 -12 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Barrel</uri>
+  </include>
+  <include>
+    <name>hazard_barrel_B</name>
+    <pose>-14 -10 0 0.15 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Barrel</uri>
+  </include>
+  <include>
+    <name>hazard_barrel_C</name>
+    <pose>20 -14 0 0 0.08 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Barrel</uri>
+  </include>
+
+  <!-- Cone perimeter around each barrel cluster -->
+  <include>
+    <name>hazard_cone_A1</name>
+    <pose>-17.5 -11 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Cone</uri>
+  </include>
+  <include>
+    <name>hazard_cone_A2</name>
+    <pose>-15.0 -13.2 0 0 0 0.5</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Cone</uri>
+  </include>
+  <include>
+    <name>hazard_cone_A3</name>
+    <pose>-12.8 -11.5 0 0 0 1.2</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Cone</uri>
+  </include>
+  <include>
+    <name>hazard_cone_C1</name>
+    <pose>21.5 -13.5 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Cone</uri>
+  </include>
+  <include>
+    <name>hazard_cone_C2</name>
+    <pose>18.5 -15.5 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Cone</uri>
+  </include>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       TASK 3 : SURVIVOR SITES
+       Real models: Backpack (personal effects left behind)
+                    + Walking Person (downed survivor)
+       Rover objective: navigate within 1 m, transmit GPS +
+       camera frame to operator.
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <!-- Survivor site 1  (NW near collapsed wall) -->
+  <include>
+    <name>survivor_backpack_1</name>
+    <pose>-24 22 0 0 0 0.8</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Backpack</uri>
+  </include>
+  <include>
+    <name>survivor_person_1</name>
+    <pose>-23.5 21.5 0 0 0 -0.5</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Walking Person</uri>
+  </include>
+
+  <!-- Survivor site 2  (SE near seawall) -->
+  <include>
+    <name>survivor_backpack_2</name>
+    <pose>24 -20 0 0 0 1.5</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Backpack</uri>
+  </include>
+  <include>
+    <name>survivor_person_2</name>
+    <pose>24.5 -19 0 0 0 2.1</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Walking Person</uri>
+  </include>
+
+  <!-- Survivor site 3  (North, deep interior) -->
+  <include>
+    <name>survivor_backpack_3</name>
+    <pose>0 28 0 0 0 -1.0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Backpack</uri>
+  </include>
+  <include>
+    <name>survivor_person_3</name>
+    <pose>0.8 27.5 0 0 0 0.3</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Walking Person</uri>
+  </include>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       TASK 4 : SUPPLY-DROP CRATES
+       Real model: Construction Barrel (stacked 2-high to be
+       visible from distance; green tint via inline overlay).
+       Rover objective: locate, log GPS for delivery team.
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <!-- Each cache = 2 barrels stacked + a cone marker -->
+  <include>
+    <name>supply_cache_1a</name>
+    <pose>-28 14 0 0 0 0.4</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Barrel</uri>
+  </include>
+  <include>
+    <name>supply_cache_1b</name>
+    <pose>-28 14 1.0 0 0 1.1</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Barrel</uri>
+  </include>
+  <include>
+    <name>supply_cone_1</name>
+    <pose>-26.5 14 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Cone</uri>
+  </include>
+
+  <include>
+    <name>supply_cache_2a</name>
+    <pose>26 16 0 0 0 1.1</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Barrel</uri>
+  </include>
+  <include>
+    <name>supply_cache_2b</name>
+    <pose>26 16 1.0 0 0 -0.3</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Barrel</uri>
+  </include>
+  <include>
+    <name>supply_cone_2</name>
+    <pose>27.5 16 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Cone</uri>
+  </include>
+
+  <include>
+    <name>supply_cache_3a</name>
+    <pose>10 -26 0 0 0 0.7</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Barrel</uri>
+  </include>
+  <include>
+    <name>supply_cache_3b</name>
+    <pose>10 -26 1.0 0 0 1.9</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Barrel</uri>
+  </include>
+  <include>
+    <name>supply_cone_3</name>
+    <pose>11.5 -26 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Cone</uri>
+  </include>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       TASK 5 : TRIAGE / COMMAND STATION
+       Real model: Ambulance + Jersey Barrier cordon.
+       Rover objective: map triage location, broadcast GPS
+       to incident command.
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <include>
+    <name>triage_ambulance</name>
+    <pose>-5 -25 0 0 0 1.5708</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Ambulance</uri>
+  </include>
+  <include>
+    <name>triage_barrier_L</name>
+    <pose>-10 -24 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Jersey Barrier</uri>
+  </include>
+  <include>
+    <name>triage_barrier_R</name>
+    <pose>0 -24 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Jersey Barrier</uri>
+  </include>
+  <include>
+    <name>triage_barrier_back</name>
+    <pose>-5 -27 0 0 0 1.5708</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Jersey Barrier</uri>
+  </include>
+  <include>
+    <name>triage_cone_L</name>
+    <pose>-11.5 -23 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Cone</uri>
+  </include>
+  <include>
+    <name>triage_cone_R</name>
+    <pose>1.5 -23 0 0 0 0</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Construction Cone</uri>
+  </include>
+
+  <!-- ================================================= -->
+  <!-- AMBIENT WALKING PERSONS  (bystanders/victims)     -->
+  <!-- ================================================= -->
+  <include>
+    <name>person_1_walking</name>
+    <pose>-5 2 0 0 0 0.8</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Walking Person</uri>
+  </include>
+  <include>
+    <name>person_2_walking</name>
+    <pose>8 -3 0 0 0 2.5</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Walking Person</uri>
+  </include>
+  <include>
+    <name>person_3_walking</name>
+    <pose>-13 5 0 0 0 -1.2</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Walking Person</uri>
+  </include>
+  <include>
+    <name>person_4_walking</name>
+    <pose>14 10 0 0 0 1.9</pose>
+    <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Walking Person</uri>
+  </include>
+
+</world>
+</sdf>
